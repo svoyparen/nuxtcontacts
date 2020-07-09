@@ -22,6 +22,7 @@
 		props: {
 			value: null,
 			label: { type: String, default: null },
+			placeholder: { type: String, default: null },
 			type: { type: String, default: 'field' },
 		},
 
