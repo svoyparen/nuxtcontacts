@@ -11,7 +11,7 @@
 		>
 		<textarea
 			v-if="type === 'text'"
-			placeholder=""
+			:placeholder="placeholder"
 			v-model.trim="realValue"
 		></textarea>
 	</div>
