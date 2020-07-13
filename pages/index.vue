@@ -10,36 +10,43 @@
 							type="email"
 							placeholder="Email"
 							v-model="email"
+							ref="email"
 							required
 						/>
 						<FormInput
 							placeholder="Имя"
 							v-model="firstName"
+							ref="firstName"
 							required
 						/>
 						<FormInput
 							placeholder="Отчество"
 							v-model="middleName"
+							ref="middleName"
 						/>
 						<FormInput
 							placeholder="Фамилия"
 							v-model="lastName"
+							ref="lastName"
 						/>
 						<FormInput
 							type="tel"
 							placeholder="Телефон"
 							v-model="phoneNumber"
 							pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+							ref="phoneNumber"
 						/>
 						<FormInput
 							placeholder="Тема"
 							v-model="title"
+							ref="title"
 							required
 						/>
 						<FormInput
 							type="text"
 							placeholder="Текст письма"
 							v-model="text"
+							ref="text"
 							required
 						/>
 						<div class="input-form">
@@ -76,8 +83,12 @@
 		}),
 		methods: {
 			async submitForm(event){
-				this.isFormSend = true
+				if (!this.$refs.email.validation() || !this.$refs.firstName.validation() || !this.$refs.middleName.validation() || !this.$refs.lastName.validation() || !this.$refs.phoneNumber.validation() || !this.$refs.title.validation() || !this.$refs.text.validation() ){
+					console.log('There are some errors')
+					return false
+				}
 				
+				this.isFormSend = true
 				let {email, firstName, lastName, middleName, title, text, phoneNumber} = this
 				let response = await axios.post('https://test.cornapi.ru/feedback', {email, firstName, lastName, middleName, title, text, phoneNumber
 				}).catch( error => {
