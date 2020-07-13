@@ -83,8 +83,7 @@
 		methods: {
 			validation() {
 				if( this.type === 'tel' ) {
-					//this.isValid = (!this.realValue) || (this.realValue.length == 11)
-					this.isValid = (this.realValue === null) || (this.realValue && this.realValue.length === 11)
+					this.isValid =  this.realValue.length === 0 || this.realValue.length === 11
 				}
 				else if ( this.type === 'email' ) {
 					this.isValid = this.realValue.length > 0 && this.realValue.length < this.count
