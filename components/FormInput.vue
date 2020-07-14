@@ -18,6 +18,7 @@
 		<input
 			v-else-if="type === 'tel'"
 			type="tel"
+			:pattern="pattern"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
 		>
@@ -39,6 +40,7 @@
 			pattern: { type: String, default: null },
 			required: { type: Boolean, default: false },
 			count: { type: Number, default: 255 },
+			count_textarea: { type: Number, default: 2048 },
 			phoneLenght: { type: Number, default: 255 },
 		},
 
@@ -64,6 +66,7 @@
 
 				return this.placeholder
 			},
+
 		},
 
 		watch: {
@@ -86,10 +89,15 @@
 					this.isValid =  this.realValue.length === 0 || this.realValue.length === 11
 				}
 				else if ( this.type === 'email' ) {
-					this.isValid = this.realValue.length > 0 && this.realValue.length < this.count
+					this.isValid = (this.realValue.length > 0) && (this.realValue.length < this.count)
+				}
+				else if ( this.type === 'text' ) {
+					this.isValid = (this.realValue && this.realValue.length < this.count_textarea)
 				}
 				else {
-					this.isValid = !this.required || (this.realValue && this.realValue.length > 0)
+					this.isValid = this.realValue.length === 0 || (this.realValue.length > 4 && this.realValue.length < this.count)
+					//console.log("field " + this.value)
+
 				}
 				return this.isValid
 			},
