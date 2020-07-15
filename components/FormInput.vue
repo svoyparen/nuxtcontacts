@@ -18,7 +18,6 @@
 		<input
 			v-else-if="type === 'tel'"
 			type="tel"
-			:pattern="pattern"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
 		>
@@ -27,6 +26,7 @@
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
 		></textarea>
+		<span class="invalid" v-if="this.isValid === false" :count="setCount" >{{ message }}</span>
 	</div>
 </template>
 
@@ -37,16 +37,14 @@
 			label: { type: String, default: null },
 			placeholder: { type: String, default: null },
 			type: { type: String, default: 'field' },
-			pattern: { type: String, default: null },
 			required: { type: Boolean, default: false },
-			count: { type: Number, default: 255 },
-			count_textarea: { type: Number, default: 2048 },
-			phoneLenght: { type: Number, default: 255 },
+			message: { type: String, default: null },
 		},
 
 		data: () => ({
 			realValue: null,
 			isValid: true,
+			count: { type: Number, default: null },
 		}),
 
 		computed: {
@@ -57,7 +55,6 @@
 
 				return this.label
 			},
-		
 
 			htmlPlaceholder() {
 				if ( this.required ) {
@@ -65,6 +62,19 @@
 				}
 
 				return this.placeholder
+			},
+
+			setCount() {
+				if ( this.type === 'tel' ) {
+					this.count = 11
+				} else if ( this.type === 'field' || this.type === 'email' ) {
+					this.count = 255
+				} else if ( this.type === 'text' ) {
+					this.count = 2048
+				} else {
+					this.count = 255
+				}
+				return this.count
 			},
 
 		},
@@ -86,18 +96,16 @@
 		methods: {
 			validation() {
 				if( this.type === 'tel' ) {
-					this.isValid =  this.realValue.length === 0 || this.realValue.length === 11
+					this.isValid =  this.realValue.length === this.count || ( !this.required && this.realValue.length === 0 )
 				}
 				else if ( this.type === 'email' ) {
-					this.isValid = (this.realValue.length > 0) && (this.realValue.length < this.count)
+					this.isValid = (this.realValue.length > 0) && (this.realValue.length < 255)
 				}
 				else if ( this.type === 'text' ) {
-					this.isValid = (this.realValue && this.realValue.length < this.count_textarea)
+					this.isValid = this.realValue.length > 0 && this.realValue.length < this.count
 				}
 				else {
-					this.isValid = this.realValue.length === 0 || (this.realValue.length > 4 && this.realValue.length < this.count)
-					//console.log("field " + this.value)
-
+					this.isValid = ( this.realValue.length > 0 && this.realValue.length < this.count ) || ( !this.required && this.realValue.length === 0 )
 				}
 				return this.isValid
 			},
