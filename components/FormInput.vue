@@ -8,25 +8,30 @@
 			type="text"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
+			:count="counter"
 		>
 		<input
 			v-else-if="type === 'email'"
 			type="email"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
+			:count="counter"
 		>
 		<input
 			v-else-if="type === 'tel'"
 			type="tel"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
+			:count="counter"
 		>
 		<textarea
 			v-else-if="type === 'text'"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
+			:count="counter"
 		></textarea>
-		<span class="invalid" v-if="this.isValid === false" :count="setCount" >{{ message }}</span>
+		<!-- свойство count было в теге span для уменьшения количества кода. По идее, как-то можно сделать наследование в компонентах? -->
+		<span class="invalid" v-if="this.isValid === false" >{{ message }}</span>
 	</div>
 </template>
 
@@ -39,12 +44,12 @@
 			type: { type: String, default: 'field' },
 			required: { type: Boolean, default: false },
 			message: { type: String, default: null },
+			count: { type: Number, default: null },
 		},
 
 		data: () => ({
 			realValue: null,
 			isValid: true,
-			count: { type: Number, default: null },
 		}),
 
 		computed: {
@@ -64,7 +69,7 @@
 				return this.placeholder
 			},
 
-			setCount() {
+			counter() {
 				if ( this.type === 'tel' ) {
 					this.count = 11
 				} else if ( this.type === 'field' || this.type === 'email' ) {
@@ -94,26 +99,42 @@
 		},
 
 		methods: {
+
 			validation() {
 				if( this.type === 'tel' ) {
-					this.isValid =  this.realValue.length === this.count || ( !this.required && this.realValue.length === 0 )
+					this.isValid =  !this.required || ( this.realValue.length === this.counter )
 				}
 				else if ( this.type === 'email' ) {
-					this.isValid = (this.realValue.length > 0) && (this.realValue.length < 255)
+					this.isValid = (this.realValue.length > 0) && (this.realValue.length < this.counter )
 				}
 				else if ( this.type === 'text' ) {
-					this.isValid = this.realValue.length > 0 && this.realValue.length < this.count
+					this.isValid = !this.required || ( this.realValue.length > 0 && this.realValue.length < this.counter )
 				}
 				else {
-					this.isValid = ( this.realValue.length > 0 && this.realValue.length < this.count ) || ( !this.required && this.realValue.length === 0 )
+					this.isValid = !this.required || ( this.realValue.length > 0 && this.realValue.length < this.counter )
 				}
 				return this.isValid
 			},
+
+			/*
+			validation() {
+				if( this.type === 'tel' ) {
+					this.isValid =  this.realValue.length === this.counter || ( !this.required && this.realValue.length === 0 )
+				}
+				else if ( this.type === 'email' ) {
+					this.isValid = (this.realValue.length > 0) && (this.realValue.length < this.counter )
+				}
+				else if ( this.type === 'text' ) {
+					this.isValid = this.realValue.length > 0 && this.realValue.length < this.counter
+				}
+				else {
+					this.isValid = ( this.realValue.length > 0 && this.realValue.length < this.counter ) || ( !this.required && this.realValue.length === 0 )
+				}
+				return this.isValid
+			},
+			*/
 		},
 	}
 
 </script>
 
-<style>
-	
-</style>
