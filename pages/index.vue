@@ -1,7 +1,7 @@
 <template>
 	<div id="contacts_block">
 		<div class="form">
-			<h1>Написать письмо</h1>
+			<h3>Написать письмо</h3>
 				<form id="post_form" @submit.prevent="submitForm">
 					<fieldset :disabled=isFormSend>
 						<span class="send_message" v-if="send">Письмо успешно отправлено!</span>
@@ -11,48 +11,53 @@
 							v-model="email"
 							ref="email"
 							required
-							message = 'Wrong email'
-						/>
-						<FormInput
-							placeholder="Имя"
-							v-model="firstName"
-							ref="firstName"
-							required
-							message = 'Wrong first name'
-						/>
-						<FormInput
-							placeholder="Отчество"
-							v-model="middleName"
-							ref="middleName"
-							message = 'Wrong middle name'
-						/>
-						<FormInput
-							placeholder="Фамилия"
-							v-model="lastName"
-							ref="lastName"
-							message = 'Wrong last name'
+							message = "Wrong email"
 						/>
 						<FormInput
 							type="tel"
 							placeholder="Телефон"
 							v-model="phoneNumber"
 							ref="phoneNumber"
-							message = 'Wrong phone number'
+							message = "Wrong phone number"
+						/>
+						<FormInput
+							placeholder="Имя"
+							v-model="firstName"
+							ref="firstName"
+							required
+							message = "Wrong first name"
+							class="fio"
+						/>
+						<FormInput
+							placeholder="Отчество"
+							v-model="middleName"
+							ref="middleName"
+							message = "Wrong middle name"
+							class="fio"
+						/>
+						<FormInput
+							placeholder="Фамилия"
+							v-model="lastName"
+							ref="lastName"
+							message = "Wrong last name"
+							class="fio"
 						/>
 						<FormInput
 							placeholder="Тема"
 							v-model="title"
 							ref="title"
 							required
-							message = 'Wrong title'
+							message = "Wrong title"
+							class="theme"
 						/>
 						<FormInput
 							type="text"
 							placeholder="Текст письма"
 							v-model="text"
 							ref="text"
-							message = 'Wrong text size'
+							message = "Wrong text size"
 							required
+							class="textarea"
 						/>
 						<div class="input-form">
 							<button type="submit">Отправить</button>
