@@ -8,29 +8,24 @@
 			type="text"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
-			:count="counter"
 		>
 		<input
 			v-else-if="type === 'email'"
 			type="email"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
-			:count="counter"
 		>
 		<input
 			v-else-if="type === 'tel'"
 			type="tel"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
-			:count="counter"
 		>
 		<textarea
 			v-else-if="type === 'text'"
 			:placeholder="htmlPlaceholder"
 			v-model.trim="realValue"
-			:count="counter"
 		></textarea>
-		<!-- свойство count было в теге span для уменьшения количества кода. По идее, как-то можно сделать наследование в компонентах? -->
 		<span class="invalid" v-if="this.isValid === false" >{{ message }}</span>
 	</div>
 </template>
