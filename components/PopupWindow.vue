@@ -1,16 +1,16 @@
 <template>
-	<div class="PopupWindow">
-    <button @click="setIsVisible">Показать окно</button>
-    <div class="modal-mask" v-if="this.isVisisble">
+  <div class="PopupWindow">
+    <button @click="show">Показать окно</button>
+    <div class="modal-mask" v-if="this.isVisible">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <slot name="header" class="modal-header"><h3>{{ title }}</h3></slot>
-      		<slot name="content">{{ message }}</slot>
-      		<slot name="footer">
-      			<button type="button" @click="setIsVisible">
-      				{{ okTitle }}
-      			</button>
-      		</slot>
+          <slot name="header" class="modal-header"></slot>
+          <slot name="content"></slot>
+          <slot name="footer">
+            <button type="button" @click="hide">
+              {{ okTitle }}
+            </button>
+          </slot>
         </div>
       </div>
     </div>
@@ -20,30 +20,35 @@
 </template>
 
 <script>
-	export default {
-		props: {
-			title: { type: String, default: 'Popup' },
+  export default {
+    props: {
+      title: { type: String, default: 'Popup' },
       message: {type: String, default: 'Message'},
-			okTitle: { type: String, default: 'Ok' },
-			loading: { type:Boolean, default: false },
-		},
+      okTitle: { type: String, default: 'Ok' },
+      loading: { type:Boolean, default: false },
+    },
 
     data: ()=> ({
-      isVisisble: false,
+      isVisible: false,
     }),
 
     methods: {
-      setIsVisible() {
-        this.isVisisble = !this.isVisisble
-      }
-    }
+      show() {
+        this.isVisible = true
+        console.log(this.isVisible)
+      },
 
+      hide() {
+        this.isVisible = false
+        console.log(this.isVisible)
+      },
+
+    },
   }
-	
+  
 </script>
 
 <style scoped>
-
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -55,12 +60,10 @@
   display: table;
   transition: opacity 0.9s ease;
 }
-
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
 }
-
 .modal-container {
   width: 300px;
   margin: 0px auto;
@@ -71,14 +74,17 @@
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.modal-header {
+  padding: 0;
+  background-color: #5533ff;
 }
 
+.modal-header h2 {
+  margin: 0;
+  padding: 3px 15px;
+  color: #42b983;
+}
 .modal-body {
   margin: 20px 0;
 }
-
 </style>
