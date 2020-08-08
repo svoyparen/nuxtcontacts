@@ -1,15 +1,12 @@
 <template>
   <div class="PopupWindow">
-    <button @click="show">Показать окно</button>
-    <div class="modal-mask" v-if="this.isVisible">
+    
+    <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
           <slot name="header" class="modal-header"></slot>
           <slot name="content"></slot>
           <slot name="footer">
-            <button type="button" @click="hide">
-              {{ okTitle }}
-            </button>
           </slot>
         </div>
       </div>
@@ -28,6 +25,7 @@
       loading: { type:Boolean, default: false },
     },
 
+/*
     data: ()=> ({
       isVisible: false,
     }),
@@ -44,6 +42,7 @@
       },
 
     },
+*/
   }
   
 </script>
@@ -65,26 +64,13 @@
   vertical-align: middle;
 }
 .modal-container {
-  width: 300px;
+  max-width: 600px;
   margin: 0px auto;
-  padding: 20px 30px;
   background-color: #fff;
-  border-radius: 2px;
+  border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
-.modal-header {
-  padding: 0;
-  background-color: #5533ff;
-}
 
-.modal-header h2 {
-  margin: 0;
-  padding: 3px 15px;
-  color: #42b983;
-}
-.modal-body {
-  margin: 20px 0;
-}
 </style>
