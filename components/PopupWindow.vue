@@ -1,13 +1,15 @@
 <template>
-  <div class="PopupWindow">
-    
+  <!--  Правда клик по модальному окну тоже вызывает его закрытие -->
+  <div ref="wrapper" @click="closePopup">
+
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <slot name="header" class="modal-header"></slot>
-          <slot name="content"></slot>
-          <slot name="footer">
-          </slot>
+          <div class="modal-header"><h4>{{ title }}</h4></div>
+          <div class="modal-content">{{ message }}</div>
+          <div name="modal-footer">
+            <button @click="closePopup">{{ okTitle }}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -25,29 +27,22 @@
       loading: { type:Boolean, default: false },
     },
 
-/*
-    data: ()=> ({
-      isVisible: false,
-    }),
-
     methods: {
-      show() {
-        this.isVisible = true
-        console.log(this.isVisible)
-      },
-
-      hide() {
-        this.isVisible = false
-        console.log(this.isVisible)
+      closePopup() {
+        this.$emit( 'hide' )
       },
 
     },
-*/
+
   }
   
 </script>
 
 <style scoped>
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -64,7 +59,7 @@
   vertical-align: middle;
 }
 .modal-container {
-  max-width: 600px;
+  max-width: 400px;
   margin: 0px auto;
   background-color: #fff;
   border-radius: 5px;
@@ -72,5 +67,19 @@
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
+.modal-header {
+  background-color: #5533ff;
+}
+.modal-header h4 {
+  font-size: 1.1em;
+  color: white;
+  margin: 0;
+  padding: 5px 15px;
+}
 
+.modal-content {
+  padding: 5px 15px;
+  font-size: 1em;
+
+}
 </style>
