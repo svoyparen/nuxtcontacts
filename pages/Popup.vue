@@ -1,10 +1,13 @@
 <template>
   <div>
     <button @click="show">Показать окно</button>
-    <div >
-      <PopupWindow :okTitle="okTitle" :title="title" :message="message" v-if="this.isVisible" @hide="hide" />
-
-    </div>
+    <PopupWindow 
+      ref="popup"
+      :okTitle="okTitle" 
+      :title="title" 
+      :message="message" 
+      :show="show" 
+    />
   </div>
 </template>
 
@@ -15,35 +18,24 @@
       PopupWindow,
     },
 
-    data() {
-      return {
-        isVisible: false,
-        okTitle: 'Close',
-        title: 'Всплывающее окно',
-        message: 'Сообщение'
-      }
-    },
+    data: () => ({
+      title: 'Заголовок',
+      message: 'Сообщение в модальном окне',
+      okTitle: 'Закрыть',
+    }),
 
     methods: {
       show() {
-        this.isVisible = true
-        console.log(this.isVisible)
+        this.$refs['popup'].isVisible = true
       },
 
-      hide() {
-        if( this.isVisible == true ) {
-          this.isVisible = false
-          console.log(this.isVisible)
-        }
-      },
-
-    },
+    }
 
   }
 
 </script>
 
-<style>
+<style scoped>
 
   button {
     margin-top: 10px;
