@@ -1,17 +1,14 @@
 <template>
-  <!--  Правда клик по модальному окну тоже вызывает его закрытие -->
-  <div ref="wrapper" @click="closePopup">
-
-    <div class="modal-mask">
-      <div class="modal-wrapper">
+  <div>
+    <div class="modal-mask" @click='hide' v-if="this.isVisible">
         <div class="modal-container">
           <div class="modal-header"><h4>{{ title }}</h4></div>
           <div class="modal-content">{{ message }}</div>
-          <div name="modal-footer">
-            <button @click="closePopup">{{ okTitle }}</button>
+          <div>
+            <button @click="hide" class="hide-popup">{{ okTitle }}</button>
           </div>
+
         </div>
-      </div>
     </div>
 
   </div>
@@ -25,24 +22,31 @@
       message: {type: String, default: 'Message'},
       okTitle: { type: String, default: 'Ok' },
       loading: { type:Boolean, default: false },
+      show: { type: Function },
     },
+
+    data: () => ({
+      isVisible: false,
+    }),
 
     methods: {
-      closePopup() {
-        this.$emit( 'hide' )
+      async hide( e = {} ) {
+        const { target } = e
+        if ( target && ( !target.classList.contains('modal-mask') && !target.classList.contains('hide-popup') ) ) {
+          console.log(target)
+          return
+        }
+        this.isVisible = false
       },
 
-    },
+    }
 
   }
   
 </script>
 
 <style scoped>
-.wrapper {
-  width: 100%;
-  height: 100%;
-}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -54,13 +58,9 @@
   display: table;
   transition: opacity 0.9s ease;
 }
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
 .modal-container {
   max-width: 400px;
-  margin: 0px auto;
+  margin: 100px auto;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -82,4 +82,14 @@
   font-size: 1em;
 
 }
+  button {
+    margin-top: 10px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    background: #0fc3f5;
+    transition: .3s;
+  }
+
 </style>
