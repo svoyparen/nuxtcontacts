@@ -1,16 +1,28 @@
 <template>
   <div>
-    <div class="modal-mask" @click='hide' v-if="this.isVisible">
-        <div class="modal-container">
+      <slot name="popup">
+        <div class="modal_mask" v-if="this.loading">
+          <div class="modal-container">
+            <div class="preloader">&nbsp;</div>
+          </div>
+        </div>
+            
+        <div class="modal-mask" @click='hide' v-if="this.isVisible">
+            <div class="modal-container">
+              <slot name="header"></slot>
+              <slot name="content"></slot>
+              <slot name="footer" :hide="hide"></slot>
+
+<!--
           <div class="modal-header"><h4>{{ title }}</h4></div>
           <div class="modal-content">{{ message }}</div>
           <div>
             <button @click="hide" class="hide-popup">{{ okTitle }}</button>
           </div>
-
-        </div>
-    </div>
-
+-->
+            </div>
+      </div>
+      </slot>
   </div>
 
 </template>
@@ -27,6 +39,7 @@
 
     data: () => ({
       isVisible: false,
+      loading: false,
     }),
 
     methods: {
@@ -91,5 +104,59 @@
     background: #0fc3f5;
     transition: .3s;
   }
+
+.preloader {
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  width: 150px;
+  height: 150px;
+  border: 5px solid #eae4ea;
+  box-shadow: 0 -2px 2px rgba(0,0,0,.2);
+  border-bottom: 5px solid #6ddfca;
+  border-radius: 50%;
+  animation: loader 3s linear infinite;
+}
+
+.preloader:before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    bottom: 10px;
+    right: 10px;
+    border: 5px solid #eae4ea;
+    box-shadow: 0 -2px 2px rgba(0,0,0,.2);
+    border-bottom: 5px solid #d355be;
+    border-radius: 50%;
+    animation: loader 2s linear infinite;
+}
+
+.preloader:after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    bottom: 22px;
+    right: 22px;
+    border: 5px solid #eae4ea;
+    box-shadow: 0 -2px 2px rgba(0,0,0,.2);
+    border-bottom: 5px solid #8c23ec;
+    border-radius: 50%;
+    animation: loader 1s linear infinite;
+}
+
+@keyframes loader
+{
+    0%
+    {
+        transform: rotate(0deg);
+    }
+    100%
+    {
+        transform: rotate(360deg);
+    }
+    
+}
 
 </style>
