@@ -1,6 +1,7 @@
 <template>
   <div id="wrapper">
     <Header />
+    <Navbar :navlinks="navlinks" />
     <main>
       <div class="container">
         <nuxt />
@@ -11,13 +12,26 @@
 </template>
 
 <script>
-import Header from '@/components/header'
-import Footer from '@/components/footer'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 export default {
   components: {
     Header,
-    Footer
-  }
+    Footer,
+    Navbar,
+  },
+
+  data () {
+    return {
+      navlinks: [
+        { url:'index', title:'Главная' },
+        { url:'select', title:'Список' },
+        { url:'popup', title:'Popup' },
+      ],
+    }
+  },
+
 }
 
 </script>
