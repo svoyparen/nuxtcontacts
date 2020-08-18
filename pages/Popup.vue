@@ -1,6 +1,18 @@
 <template>
   <div>
     <button @click="show">Показать окно</button>
+      <PopupWindow
+          ref="popup"
+          :show="show"
+          v-on:beforeHide="beforeHide"
+          v-on:hidden="hidden"
+          >
+        <template v-slot:header><div class="modal-header"><h4>Заголовок</h4></div></template>
+        <template v-slot:content><div class="modal-content">Содержимое модального окна</div></template>
+        <template v-slot:footer><div><button @click="hide" class="hide-popup">Закрыть</button></div></template>
+      </PopupWindow>
+
+<!--
     <PopupWindow 
       ref="popup"
       :okTitle="okTitle" 
@@ -8,6 +20,7 @@
       :message="message" 
       :show="show" 
     />
+-->
   </div>
 </template>
 
@@ -26,9 +39,30 @@
 
     methods: {
       show() {
-        this.$refs['popup'].isVisible = true
+        console.log('beforeShow')
+        this.$refs['popup'].loading = true
+        setTimeout( this.show2, 3000 )
       },
 
+      show2() {
+        this.$refs['popup'].isVisible = true
+        this.$refs['popup'].loading = false
+      },
+
+      hide() {
+        //this.beforeHide()
+        this.$emit('hide')
+        //this.hidden()
+      },
+/*
+      beforeHide(){
+        console.log('beforeHide')
+      },
+
+      hidden(){
+        console.log('hidden')
+      },
+*/
     }
 
   }
